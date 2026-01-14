@@ -480,14 +480,3 @@ Multi-Agent AI System for Analytical Chemistry. CS 6610 Capstone Project.
 ✨ **Domain integration** - Chemistry + Computer Science  
 ✨ **Software engineering** - Clean code, docs, tests  
 ✨ **Problem solving** - Novel application of technologies  
-
-
-*For the most up-to-date information and detailed guides, see the individual documentation files listed above.*
-
-**Start here:** `START_HERE_SIMPLE.md`  
-**Need help:** `HOW_TO_RUN.md`  
-**Full details:** `PROJECT_OVERVIEW.md`
-=======
-# CAPSTONE
-CS-6610 final project
->>>>>>> origin/main
