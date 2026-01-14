@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Neo4j RAG for GC-MS Retention Time Prediction
 ## Multi-Agent AI System for Analytical Chemistry
 
@@ -486,3 +487,7 @@ Multi-Agent AI System for Analytical Chemistry. CS 6610 Capstone Project.
 **Start here:** `START_HERE_SIMPLE.md`  
 **Need help:** `HOW_TO_RUN.md`  
 **Full details:** `PROJECT_OVERVIEW.md`
+=======
+# CAPSTONE
+CS-6610 final project
+>>>>>>> origin/main
