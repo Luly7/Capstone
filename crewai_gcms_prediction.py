@@ -1,0 +1,312 @@
+"""
+CrewAI Architecture for GC-MS Retention Time Prediction with Neo4j RAG
+Integrates RAG retrieval with multi-agent workflow
+"""
+
+from crewai import Agent, Task, Crew, Process
+from langchain.tools import tool
+from crewai.tools import BaseTool
+
+from typing import Dict, List
+from pydantic import BaseModel, Field
+from rag_retriever import MolecularRAGRetriever
+from neo4j_schema import get_neo4j_connection
+import os
+# At the top, remove BaseTool import and add tool decorator
+from crewai import Agent, Task, Crew, Process
+from langchain.tools import tool
+from crewai.tools import BaseTool
+
+
+@tool("molecular_knowledge_graph")
+def rag_retrieval_tool(smiles: str, column_type: str = "HP-5MS", top_k: int = 10) -> str:
+    """
+    Retrieves relevant molecular data and retention times from Neo4j knowledge graph.
+
+    Args:
+        smiles: SMILES string of the query molecule
+        column_type: GC column type (default: HP-5MS)
+        top_k: Number of similar molecules to retrieve
+
+    Returns:
+        Formatted context with molecular properties and similar compounds
+    """
+    from rag_retriever import MolecularRAGRetriever
+    from neo4j_schema import get_neo4j_connection
+
+    uri, username, password = get_neo4j_connection()
+    retriever = MolecularRAGRetriever(uri, username, password)
+
+    context = retriever.retrieve_prediction_context(
+        query_smiles=smiles,
+        column_type=column_type,
+        top_k=top_k
+    )
+    return context
+
+# Then in Agent setup, use the function directly:
+# tools=[rag_retrieval_tool]
+
+
+class RAGRetrievalTool(BaseTool):
+    """Custom CrewAI tool for Neo4j RAG retrieval"""
+    name: str = "molecular_knowledge_graph"
+    description: str = "Retrieves relevant molecular data and retention times from Neo4j knowledge graph"
+
+    class Config:
+        arbitrary_types_allowed = True
+
+    _retriever: MolecularRAGRetriever = None
+
+    def __init__(self):
+        super().__init__()
+        uri, username, password = get_neo4j_connection()
+        object.__setattr__(self, '_retriever',
+                           MolecularRAGRetriever(uri, username, password))
+
+    def _run(self, smiles: str, column_type: str = "HP-5MS", top_k: int = 10) -> str:
+        """Execute RAG retrieval and return formatted context"""
+        context = self._retriever.retrieve_prediction_context(
+            query_smiles=smiles,
+            column_type=column_type,
+            top_k=top_k
+        )
+        return self._retriever.format_context_for_llm(context)
+
+
+class GCMSPredictionCrew:
+    """CrewAI workflow for GC-MS retention time prediction with RAG"""
+
+    def __init__(self):
+        self.rag_tool = RAGRetrievalTool()
+        self.setup_agents()
+
+    def setup_agents(self):
+        """Initialize specialized agents for RT prediction workflow"""
+
+        # Agent 1: Molecular Analysis Expert
+        self.molecular_analyst = Agent(
+            role="Molecular Structure Analyst",
+            goal="Analyze molecular structure and extract relevant chemical features for retention time prediction",
+            backstory="""You are an expert analytical chemist specializing in molecular structure 
+            analysis. You understand how molecular properties like polarity, molecular weight, 
+            functional groups, and structural features influence chromatographic behavior.""",
+            tools=[self.rag_tool],
+            verbose=True,
+            allow_delegation=False
+        )
+
+        # Agent 2: Knowledge Graph Retrieval Expert
+        self.kg_retrieval_agent = Agent(
+            role="Knowledge Graph Retrieval Specialist",
+            goal="Query the molecular knowledge graph to find relevant historical retention time data and similar molecules",
+            backstory="""You are an expert in querying graph databases and retrieving relevant 
+            molecular data. You understand how to find similar molecules and relevant experimental 
+            data that can inform retention time predictions.""",
+            tools=[self.rag_tool],
+            verbose=True,
+            allow_delegation=False
+        )
+
+        # Agent 3: Chromatography Expert
+        self.chromatography_expert = Agent(
+            role="GC-MS Chromatography Expert",
+            goal="Interpret chromatographic behavior and predict retention times based on molecular properties and historical data",
+            backstory="""You are a senior chromatographer with 20+ years of experience in GC-MS. 
+            You understand how molecules interact with stationary phases, how temperature programs 
+            affect retention, and how to predict retention times based on molecular structure.""",
+            tools=[],
+            verbose=True,
+            allow_delegation=True
+        )
+
+        # Agent 4: Data Validation Expert
+        self.validation_expert = Agent(
+            role="Experimental Data Validator",
+            goal="Validate predictions against known experimental data and assess prediction confidence",
+            backstory="""You are a meticulous analytical chemist who validates predictions against 
+            experimental evidence. You assess the reliability of predictions based on the quality 
+            and relevance of retrieved data.""",
+            tools=[self.rag_tool],
+            verbose=True,
+            allow_delegation=False
+        )
+
+        # Agent 5: Prediction Synthesis Expert
+        self.synthesis_agent = Agent(
+            role="Prediction Synthesis Coordinator",
+            goal="Synthesize all analysis and produce final retention time prediction with confidence intervals",
+            backstory="""You are an expert in combining multiple sources of evidence to produce 
+            accurate predictions. You weigh different factors and produce well-calibrated predictions 
+            with appropriate uncertainty estimates.""",
+            tools=[],
+            verbose=True,
+            allow_delegation=False
+        )
+
+    def create_prediction_tasks(self, smiles: str, column_type: str = "HP-5MS",
+                                temperature_program: str = "40°C to 300°C at 10°C/min") -> List[Task]:
+        """Create the task workflow for RT prediction"""
+
+        # Task 1: Molecular Analysis
+        molecular_analysis_task = Task(
+            description=f"""Analyze the molecular structure of {smiles}.
+            
+            Extract key molecular properties that influence GC-MS retention time:
+            - Molecular weight
+            - LogP (lipophilicity)
+            - Polarity (TPSA)
+            - Functional groups
+            - Structural features (aromatic rings, rotatable bonds)
+            
+            Explain how these properties typically affect retention time on {column_type} columns.
+            """,
+            agent=self.molecular_analyst,
+            expected_output="Detailed molecular analysis with property values and chromatographic implications"
+        )
+
+        # Task 2: Knowledge Graph Retrieval
+        kg_retrieval_task = Task(
+            description=f"""Query the molecular knowledge graph for {smiles} using the molecular_knowledge_graph tool.
+            
+            Retrieve:
+            - Similar molecules with known retention times
+            - Molecules with similar properties measured on {column_type}
+            - Historical retention time patterns
+            
+            Parameters:
+            - SMILES: {smiles}
+            - Column: {column_type}
+            - Top K: 10
+            
+            Summarize the most relevant findings from the knowledge graph.
+            """,
+            agent=self.kg_retrieval_agent,
+            expected_output="Summary of retrieved molecular data and retention time patterns",
+            context=[molecular_analysis_task]
+        )
+
+        # Task 3: Chromatographic Interpretation
+        chromatography_task = Task(
+            description=f"""Based on the molecular analysis and retrieved knowledge graph data, 
+            predict the retention time for {smiles} on {column_type} column.
+            
+            Temperature program: {temperature_program}
+            
+            Consider:
+            - Molecular properties and their influence on retention
+            - Retention times of similar molecules
+            - Column phase interactions
+            - Temperature program effects
+            
+            Provide a retention time prediction in minutes with reasoning.
+            """,
+            agent=self.chromatography_expert,
+            expected_output="Retention time prediction with detailed reasoning",
+            context=[molecular_analysis_task, kg_retrieval_task]
+        )
+
+        # Task 4: Validation
+        validation_task = Task(
+            description=f"""Validate the retention time prediction against the retrieved experimental data.
+            
+            Assess:
+            - How similar are the reference molecules?
+            - How consistent are their retention times?
+            - What is the expected prediction error?
+            - Are there any outliers or conflicting data?
+            
+            Provide a confidence score (0-100%) for the prediction.
+            """,
+            agent=self.validation_expert,
+            expected_output="Validation report with confidence assessment",
+            context=[kg_retrieval_task, chromatography_task]
+        )
+
+        # Task 5: Final Synthesis
+        synthesis_task = Task(
+            description=f"""Synthesize all analyses into a final retention time prediction for {smiles}.
+            
+            Provide:
+            - Final predicted retention time (minutes)
+            - 95% confidence interval
+            - Prediction confidence score
+            - Key factors influencing the prediction
+            - Limitations and uncertainties
+            
+            Format the output as a structured prediction report.
+            """,
+            agent=self.synthesis_agent,
+            expected_output="Final prediction report with retention time, confidence interval, and analysis",
+            context=[molecular_analysis_task, kg_retrieval_task,
+                     chromatography_task, validation_task]
+        )
+
+        return [
+            molecular_analysis_task,
+            kg_retrieval_task,
+            chromatography_task,
+            validation_task,
+            synthesis_task
+        ]
+
+    def predict_retention_time(self, smiles: str, column_type: str = "HP-5MS",
+                               temperature_program: str = "40°C to 300°C at 10°C/min") -> Dict:
+        """Execute the full prediction workflow"""
+
+        # Create tasks
+        tasks = self.create_prediction_tasks(
+            smiles, column_type, temperature_program)
+
+        # Create crew
+        crew = Crew(
+            agents=[
+                self.molecular_analyst,
+                self.kg_retrieval_agent,
+                self.chromatography_expert,
+                self.validation_expert,
+                self.synthesis_agent
+            ],
+            tasks=tasks,
+            process=Process.sequential,
+            verbose=True
+        )
+
+        # Execute workflow
+        result = crew.kickoff()
+
+        return {
+            'smiles': smiles,
+            'column_type': column_type,
+            'temperature_program': temperature_program,
+            'prediction_result': result
+        }
+
+
+def main():
+    """Example usage"""
+    # Initialize prediction system
+    gcms_crew = GCMSPredictionCrew()
+
+    # Example molecule: Caffeine
+    test_smiles = "CN1C=NC2=C1C(=O)N(C(=O)N2C)C"
+
+    # Run prediction
+    result = gcms_crew.predict_retention_time(
+        smiles=test_smiles,
+        column_type="HP-5MS",
+        temperature_program="40°C to 300°C at 10°C/min"
+    )
+
+    print("\n" + "="*80)
+    print("RETENTION TIME PREDICTION RESULT")
+    print("="*80)
+    print(f"Molecule: {result['smiles']}")
+    print(f"Column: {result['column_type']}")
+    print(f"Temperature Program: {result['temperature_program']}")
+    print("\nPrediction:")
+    print(result['prediction_result'])
+
+
+if __name__ == "__main__":
+    main()

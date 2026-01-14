@@ -1,0 +1,102 @@
+compound_id,compound_name,smiles,molecular_weight,cas_number,compound_class
+1,Benzene,c1ccccc1,78.11,71-43-2,Aromatic Hydrocarbon
+2,Toluene,Cc1ccccc1,92.14,108-88-3,Aromatic Hydrocarbon
+3,Ethylbenzene,CCc1ccccc1,106.17,100-41-4,Aromatic Hydrocarbon
+4,p-Xylene,Cc1ccc(C)cc1,106.17,106-42-3,Aromatic Hydrocarbon
+5,o-Xylene,Cc1ccccc1C,106.17,95-47-6,Aromatic Hydrocarbon
+6,m-Xylene,Cc1cccc(C)c1,106.17,108-38-3,Aromatic Hydrocarbon
+7,Styrene,C=Cc1ccccc1,104.15,100-42-5,Aromatic Hydrocarbon
+8,Naphthalene,c1ccc2ccccc2c1,128.17,91-20-3,Polycyclic Aromatic
+9,Anthracene,c1ccc2cc3ccccc3cc2c1,178.23,120-12-7,Polycyclic Aromatic
+10,Phenanthrene,c1ccc2c(c1)ccc3ccccc32,178.23,85-01-8,Polycyclic Aromatic
+11,n-Hexane,CCCCCC,86.18,110-54-3,Aliphatic Hydrocarbon
+12,n-Heptane,CCCCCCC,100.20,142-82-5,Aliphatic Hydrocarbon
+13,n-Octane,CCCCCCCC,114.23,111-65-9,Aliphatic Hydrocarbon
+14,n-Nonane,CCCCCCCCC,128.26,111-84-2,Aliphatic Hydrocarbon
+15,n-Decane,CCCCCCCCCC,142.28,124-18-5,Aliphatic Hydrocarbon
+16,Cyclohexane,C1CCCCC1,84.16,110-82-7,Cycloalkane
+17,Methylcyclohexane,CC1CCCCC1,98.19,108-87-2,Cycloalkane
+18,Ethylcyclohexane,CCC1CCCCC1,112.21,1678-91-7,Cycloalkane
+19,Methanol,CO,32.04,67-56-1,Alcohol
+20,Ethanol,CCO,46.07,64-17-5,Alcohol
+21,1-Propanol,CCCO,60.10,71-23-8,Alcohol
+22,1-Butanol,CCCCO,74.12,71-36-3,Alcohol
+23,1-Pentanol,CCCCCO,88.15,71-41-0,Alcohol
+24,1-Hexanol,CCCCCCO,102.18,111-27-3,Alcohol
+25,2-Propanol,CC(C)O,60.10,67-63-0,Alcohol
+26,2-Butanol,CCC(C)O,74.12,78-92-2,Alcohol
+27,tert-Butanol,CC(C)(C)O,74.12,75-65-0,Alcohol
+28,Phenol,Oc1ccccc1,94.11,108-95-2,Phenol
+29,o-Cresol,Cc1ccccc1O,108.14,95-48-7,Phenol
+30,p-Cresol,Cc1ccc(O)cc1,108.14,106-44-5,Phenol
+31,Acetone,CC(C)=O,58.08,67-64-1,Ketone
+32,2-Butanone,CCC(C)=O,72.11,78-93-3,Ketone
+33,2-Pentanone,CCCC(C)=O,86.13,107-87-9,Ketone
+34,3-Pentanone,CCC(=O)CC,86.13,96-22-0,Ketone
+35,Cyclohexanone,O=C1CCCCC1,98.14,108-94-1,Ketone
+36,Acetophenone,CC(=O)c1ccccc1,120.15,98-86-2,Aromatic Ketone
+37,Benzophenone,O=C(c1ccccc1)c2ccccc2,182.22,119-61-9,Aromatic Ketone
+38,Acetic acid,CC(=O)O,60.05,64-19-7,Carboxylic Acid
+39,Propionic acid,CCC(=O)O,74.08,79-09-4,Carboxylic Acid
+40,Butyric acid,CCCC(=O)O,88.11,107-92-6,Carboxylic Acid
+41,Valeric acid,CCCCC(=O)O,102.13,109-52-4,Carboxylic Acid
+42,Hexanoic acid,CCCCCC(=O)O,116.16,142-62-1,Carboxylic Acid
+43,Benzoic acid,O=C(O)c1ccccc1,122.12,65-85-0,Aromatic Acid
+44,Methyl acetate,COC(C)=O,74.08,79-20-9,Ester
+45,Ethyl acetate,CCOC(C)=O,88.11,141-78-6,Ester
+46,Propyl acetate,CCCOC(C)=O,102.13,109-60-4,Ester
+47,Butyl acetate,CCCCOC(C)=O,116.16,123-86-4,Ester
+48,Methyl propionate,COC(=O)CC,88.11,554-12-1,Ester
+49,Ethyl propionate,CCOC(=O)CC,102.13,105-37-3,Ester
+50,Methyl benzoate,COC(=O)c1ccccc1,136.15,93-58-3,Aromatic Ester
+51,Ethyl benzoate,CCOC(=O)c1ccccc1,150.17,93-89-0,Aromatic Ester
+52,Acetaldehyde,CC=O,44.05,75-07-0,Aldehyde
+53,Propionaldehyde,CCC=O,58.08,123-38-6,Aldehyde
+54,Butyraldehyde,CCCC=O,72.11,123-72-8,Aldehyde
+55,Benzaldehyde,O=Cc1ccccc1,106.12,100-52-7,Aromatic Aldehyde
+56,Cinnamaldehyde,O=CC=Cc1ccccc1,132.16,104-55-2,Aromatic Aldehyde
+57,Methylamine,CN,31.06,74-89-5,Amine
+58,Ethylamine,CCN,45.08,75-04-7,Amine
+59,Diethylamine,CCNCC,73.14,109-89-7,Amine
+60,Triethylamine,CCN(CC)CC,101.19,121-44-8,Amine
+61,Aniline,Nc1ccccc1,93.13,62-53-3,Aromatic Amine
+62,N-Methylaniline,CNc1ccccc1,107.15,100-61-8,Aromatic Amine
+63,N,N-Dimethylaniline,CN(C)c1ccccc1,121.18,121-69-7,Aromatic Amine
+64,Pyridine,c1ccncc1,79.10,110-86-1,Heterocyclic
+65,2-Methylpyridine,Cc1ccccn1,93.13,109-06-8,Heterocyclic
+66,3-Methylpyridine,Cc1cccnc1,93.13,108-99-6,Heterocyclic
+67,4-Methylpyridine,Cc1ccncc1,93.13,108-89-4,Heterocyclic
+68,Quinoline,c1ccc2ncccc2c1,129.16,91-22-5,Heterocyclic
+69,Isoquinoline,c1ccc2cnccc2c1,129.16,119-65-3,Heterocyclic
+70,Furan,c1ccoc1,68.07,110-00-9,Heterocyclic
+71,2-Methylfuran,Cc1ccco1,82.10,534-22-5,Heterocyclic
+72,Thiophene,c1ccsc1,84.14,110-02-1,Heterocyclic
+73,2-Methylthiophene,Cc1cccs1,98.17,554-14-3,Heterocyclic
+74,Chlorobenzene,Clc1ccccc1,112.56,108-90-7,Halogenated Aromatic
+75,1,2-Dichlorobenzene,Clc1ccccc1Cl,147.00,95-50-1,Halogenated Aromatic
+76,1,4-Dichlorobenzene,Clc1ccc(Cl)cc1,147.00,106-46-7,Halogenated Aromatic
+77,Bromobenzene,Brc1ccccc1,157.01,108-86-1,Halogenated Aromatic
+78,Iodobenzene,Ic1ccccc1,204.01,591-50-4,Halogenated Aromatic
+79,Fluorobenzene,Fc1ccccc1,96.10,462-06-6,Halogenated Aromatic
+80,Chloroform,ClC(Cl)Cl,119.38,67-66-3,Halogenated Alkane
+81,Carbon tetrachloride,ClC(Cl)(Cl)Cl,153.82,56-23-5,Halogenated Alkane
+82,Dichloromethane,ClCCl,84.93,75-09-2,Halogenated Alkane
+83,1,2-Dichloroethane,ClCCCl,98.96,107-06-2,Halogenated Alkane
+84,Trichloroethylene,ClC=C(Cl)Cl,131.39,79-01-6,Halogenated Alkene
+85,Tetrachloroethylene,ClC(Cl)=C(Cl)Cl,165.83,127-18-4,Halogenated Alkene
+86,Nitrobenzene,[O-][N+](=O)c1ccccc1,123.11,98-95-3,Nitro Compound
+87,2-Nitrotoluene,Cc1ccccc1[N+](=O)[O-],137.14,88-72-2,Nitro Compound
+88,3-Nitrotoluene,Cc1cccc(c1)[N+](=O)[O-],137.14,99-08-1,Nitro Compound
+89,4-Nitrotoluene,Cc1ccc(cc1)[N+](=O)[O-],137.14,99-99-0,Nitro Compound
+90,Anisole,COc1ccccc1,108.14,100-66-3,Aromatic Ether
+91,Phenetole,CCOc1ccccc1,122.16,103-73-1,Aromatic Ether
+92,Diphenyl ether,c1ccc(Oc2ccccc2)cc1,170.21,101-84-8,Aromatic Ether
+93,Dimethyl ether,COC,46.07,115-10-6,Ether
+94,Diethyl ether,CCOCC,74.12,60-29-7,Ether
+95,Tetrahydrofuran,C1CCOC1,72.11,109-99-9,Cyclic Ether
+96,1,4-Dioxane,C1COCCO1,88.11,123-91-1,Cyclic Ether
+97,Indene,C1=Cc2ccccc2C1,116.16,95-13-6,Cyclic Aromatic
+98,Indole,c1ccc2[nH]ccc2c1,117.15,120-72-9,Heterocyclic Aromatic
+99,Biphenyl,c1ccc(cc1)c2ccccc2,154.21,92-52-4,Polycyclic Aromatic
+100,Terphenyl,c1ccc(cc1)c2ccc(cc2)c3ccccc3,230.30,92-94-4,Polycyclic Aromatic
+

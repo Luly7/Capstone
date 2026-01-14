@@ -1,0 +1,57 @@
+{
+  "column_type": "Rtx-624",
+  "feature_names": [
+    "molecular_weight",
+    "logp",
+    "tpsa",
+    "num_rotatable_bonds",
+    "num_h_acceptors",
+    "num_h_donors",
+    "num_aromatic_rings",
+    "MolecularWeight",
+    "LogP",
+    "TPSA",
+    "NumRotatableBonds",
+    "NumHAcceptors",
+    "NumHDonors",
+    "NumAromaticRings",
+    "NumAliphaticRings",
+    "NumSaturatedRings",
+    "NumHeteroatoms",
+    "FractionCSP3",
+    "MolMR",
+    "BalabanJ",
+    "Chi0v",
+    "Chi1v",
+    "Kappa1",
+    "Kappa2",
+    "LabuteASA",
+    "PEOE_VSA1",
+    "PEOE_VSA2",
+    "MaxPartialCharge",
+    "MinPartialCharge"
+  ],
+  "model_results": {
+    "random_forest": {
+      "train_r2": 0.7181626133387518,
+      "test_r2": 0.8863860645403545,
+      "train_mae": 2.3861871817197886,
+      "test_mae": 2.368095156325159,
+      "train_rmse": 4.350308914741332,
+      "test_rmse": 2.845259724846265,
+      "cv_r2": 0.8863860645403545,
+      "cv_std": 0.0
+    },
+    "gradient_boosting": {
+      "train_r2": 1.0,
+      "test_r2": 0.9303346483782529,
+      "train_mae": 9.984175425808478e-09,
+      "test_mae": 1.6452558602588834,
+      "train_rmse": 1.4266158097498231e-08,
+      "test_rmse": 2.227996638927519,
+      "cv_r2": 0.9303346483782529,
+      "cv_std": 0.0
+    }
+  },
+  "n_features": 29
+}
